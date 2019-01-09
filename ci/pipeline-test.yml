@@ -1,0 +1,17 @@
+resources:
+- name: git-source
+  type: git
+  source:
+    branch: master
+    private_key: {{git-ssh-key}}
+    skip_ssl_verification: true
+    uri: git@github.com:nhznph/employee-salary.git
+
+jobs:
+- name: maven-build-test
+  public: true
+  plan:
+  - get: git-source
+    trigger: true
+  - task: mvn-test
+    file: git-source/ci/tasks/test.yml
