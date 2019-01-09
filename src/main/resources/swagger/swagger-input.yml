@@ -1,0 +1,222 @@
+swagger: "2.0"
+info:
+  description: "Manage employee"
+  version: "1.0.0"
+  title: "Employee"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "employeeManager.swagger.io"
+basePath: "/v1"
+tags:
+- name: "Employee"
+  description: "Everything about customer"
+schemes:
+- "https"
+- "http"
+paths:
+  /v1/employee:
+    post:
+      tags:
+      - "employee"
+      summary: "Add a new employee"
+      description: "add new employee in to database"
+      operationId: "addEmployee"
+      consumes:
+      - "application/json"
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Employee object need to be add in Employee"
+        required: true
+        schema:
+          $ref: "#/definitions/Employee"
+      responses:
+        200:
+          description: "successfully created"
+          schema:
+            type: string
+            description: ID of the employee being created.
+        405:
+          description: "Invalid input"
+        500:
+          description: Internal server error
+    get:
+      tags:
+      - "employee"
+      summary: "get all employee"
+      description: "get all employee"
+      operationId: "getAllEmployee"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Employee"
+        400:
+          description: "Invalid status value"
+  /v1/employee/{id}:
+    put:
+      tags:
+      - "employee"
+      summary: "Update an existing employee"
+      description: "just update the employee by id"
+      operationId: "updateEmployee"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID of employee to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Employee object need to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Employee"
+      responses:
+        200:
+          description: "updated successfully"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Employee not found"
+        405:
+          description: "Validation exception"
+    get:
+      tags:
+      - "employee"
+      summary: "get employee by id"
+      description: "get employee by id from path"
+      operationId: "searchEmployeeByID"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID of employee to get"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successfully updated"
+          schema:
+            $ref: "#/definitions/Employee"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Employee not found"
+        405:
+          description: "Validation exception"
+    delete:
+      tags:
+      - "employee"
+      summary: "delete employee by id"
+      description: "delete employee by id from path"
+      operationId: "deleteEmployee"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "ID of employee to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successfully delete"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "employee not found"
+        405:
+          description: "Validation exception"
+  /v1/employee/:
+    get:
+      tags:
+      - "employee"
+      summary: "get employee by name"
+      description: "get employee by name from path"
+      operationId: "searchEmployeeByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "firstName"
+        in: "query"
+        description: "firstname of employee"
+        required: true
+        type: "string"
+      - name: "lastName"
+        in: "query"
+        description: "last name of employee"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successfully updated"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Employee"
+        400:
+          description: "Invalid name supplied"
+        404:
+          description: "Customer not found"
+        405:
+          description: "Validation exception"
+definitions:
+  Employee:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "1"
+      firstName:
+        type: "string"
+        example: "hoang"
+      lastName:
+        type: "string"
+        example: "nhan"
+      age:
+        type: "integer"
+        example: "1"
+      dob:
+        type: "string"
+        format: "date"
+        example: "2017-07-21"
+      gender:
+        type: "string"
+        example: "M"
+      phone:
+        type: "string"
+        example: "0353050279"
+      address:
+        type: "string"
+        example: " 371 nguyen kiem"
+      salaryAmount:
+        $ref: "#/definitions/Salary"
+  Salary:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "1"
+      salary:
+        type: "integer"
+        example: "1000000"
+      dateSalary:
+        type: "string"
+        format: "date"
+        example: "2018-05-02"
+
+
